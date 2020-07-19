@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Livro de Java, Android, PHP, Ruby e muito mais - Casa do Código</title>
 </head>
 <body>
 	<h1>Produto cadastrado com sucesso!</h1>

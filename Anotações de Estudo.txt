@@ -209,7 +209,7 @@
 			factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
 			
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
-			dataSource.setUsername("sa");
+			dataSource.setUsername("root");
 			dataSource.setPassword("");
 			dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo");
 			dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -226,7 +226,12 @@
 			factoryBean.setPackagesToScan("br.com.casadocodigo.loja.models");
 
 			return factoryBean;
-		}	
+		}
+		
+		@Bean
+		public JpaTransactionManager transactionManager(EntityManagerFactory emf){
+			return new JpaTransactionManager(emf);		
+		}
 	}
 
 	--> Inserir essa classe na classe / método 
