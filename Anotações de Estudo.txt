@@ -1,0 +1,125 @@
+--> Aula 1, configurando e rodando o primeiro projeto em Spring MVC
+//--------------------------//--------------------------//--------------------------//
+--> Criar projeto pelo Forge:
+    --> Baixar o jboss forge;
+    --> https://forge.jboss.org/
+    --> Pra usar, pelo terminal:
+        --> Vai na pasta de donwload;
+        --> Acessa bin;
+        --> Digita forge, onde ele vai rodar o programa de criação;
+        --> Digita project-new --named "nomedoprojeto sem aspas";
+        --> Será criado o projeto dentro do bin do Forge;
+        --> Copia essa pasta para onde será seu local de trabalho em importe como Maven;
+
+--> Cria o servidor Tomcat;
+--> Cria um arquivo index.html para testar o servidor;
+    --> Cria em: src/main/webapp/index.html;
+    --> Após escrever um <H1>, rode o servidor e teste, por exemplo:
+        --> http://localhost:8080/casadocodigo/
+
+--> Caso funcione, pode apagar o arquivo index.html;
+
+--> Baixar as dependencias pelo pom.xml:
+    <dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<version>7.0.30</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jstl-impl</artifactId>
+			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+
+--> Cria o primeiro Controller:
+    --> Cria a classe HomeController, no pacote: br.com.casadocodigo.loja.controllers
+    --> Cria um método que retorna uma String chamado index e põe o retorno como por exemplo return "home";
+    --> Põe a annotation @RequestMapping("/") nele;
+    --> Anota a classe como @Controller também;
+
+--> Cria o arquivo (home) dentro de webapp/WEB-INF/views (Criar WEB-INF caso não tenha);
+    --> Com um h1 qualquer para teste;
+        --> O spring só vai conhecer esse caminho quando for configurada a classe AppWebConfiguration nos passos abaixo;
+
+--> Configurando o Spring MVC Básico:
+    --> Cria um pacote de conf: br.com.casadocodigo.loja.conf
+    --> Crie a classe de configuração do Spring: ServletSpringMVC
+    --> Essa classe estende: extends AbstractAnnotationConfigDispatcherServletInitializer
+    --> Deverá ser ajustado o método (getServletMappings);
+        --> Retornando (return new String[] {"/"};)
+            --> Assim o Spring ficará responsável por verificar da barra pra frente;
+    --> Deverá ser ajustado o método (getServletConfigClasses);
+        --> Retornando (return new Class[] {AppWebConfiguration.class};)
+            --> Essa será a classe responsável por informar os controllers e algumas configurações do Spring;
+
+    --> Criar a classe AppWebConfiguration:
+        --> Jogar a classe no pacote de configuração: br.com.casadocodigo.loja.conf
+        --> Anotar ela como @EnableWebMvc;
+        --> Anota também com @ComponentScan(basePackageClasses = {HomeController.class});
+            --> Usando essa annotation, mesmo se caso o pacote do homecontroller mude, ele achará devido a classe;
+        --> Criar o método abaixo, para que o Spring saiba onde estão as views que serão criadas:
+            
+            @Bean
+            public InternalResourceViewResolver internalResourceViewResolver() {
+	        	InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		        resolver.setPrefix("/WEB-INF/views/");
+		        resolver.setSuffix(".jsp");
+		
+		        return resolver;
+	        }
+//--------------------------//--------------------------//--------------------------//
