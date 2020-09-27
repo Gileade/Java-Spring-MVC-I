@@ -27,6 +27,14 @@ public class Produto {
 	@ElementCollection //Cria uma tabela extra, porém já relacionada com o produto, pois se fosse usado o one to many, ele criaria um id de preços, onde não faria sentido nesse caso
 	private List<Preco> precos;
 	
+	private String sumarioPath;
+	
+	public String getSumarioPath() {
+		return sumarioPath;
+	}
+	public void setSumarioPath(String sumarioPath) {
+		this.sumarioPath = sumarioPath;
+	}
 	public String getTitulo() {
 		return titulo;
 	}
